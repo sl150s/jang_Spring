@@ -12,7 +12,8 @@
 	
 		<h1>인텍스 페이지 입니다. </h1>
 		<ul>
-			<li><a href="member/list">회원목록 보기</a></li>
+			<li><a href="member/list">회원 목록 보기</a></li>
+			<li><a href="todo/list">할일 목록 보기</a></li>
 		</ul>
 		<h3>공지사항</h3>
 		<ul>
