@@ -30,17 +30,28 @@
       dataSource = new JndiObjectFactoryBean();
       dataSource.setJndiName("java:comp/env/jdbc/myoracle");
     -->
+    
+    
+    <!-- memberdto 만들기  -->
+   <!-- <beans:bean id ="mem1" class="com.gura.spring02.member.dto.MemberDto">
+    	<beans:property name="num" value="1"/>
+    	<beans:property name="name" value="김구라"/>
+    	<beans:property name="addr" value="주소"/>
+    </beans:bean> --> 
    
    
    <!-- 
       SqlSessionFactory 객체 
       Configuration.xml 문서가 어디에 있는지 알려야 한다. 
+      
+      value에서 classpath: 은  src/resources 폴더를 가리킨다. 
+      따라서, classpath:Configuration.xml 은 src/main/resources 폴더 안에 존재 해야한다. 
    -->
    <beans:bean id="sessionFactory" 
       class="org.mybatis.spring.SqlSessionFactoryBean">
-      <beans:property name="dataSource" ref="dataSource"/>
+      <beans:property name="dataSource" ref="dataSource"/> <!-- ref는 참조값  -->
       <beans:property name="configLocation"
-   value="classpath:Configuration.xml"/>
+   value="classpath:Configuration.xml"/> <!-- value는 int,spring.. 등등을 넣을때 사용 -->
    </beans:bean>
    <!-- 
       sessionFactory=new SqlSessionFactoryBean();
@@ -73,6 +84,12 @@
       
       new SqlSessionTemplate(sessionFactory);
     -->
+    
+    
+    
+    
+    
+    
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -87,7 +104,9 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- component-scan을 통해서 자동으로 bean 설정할 수 있다. -->
 	<context:component-scan base-package="com.gura.spring02" />
+	
 	
 	
 	
