@@ -71,6 +71,10 @@
    </beans:bean>
    
    
+   <beans:bean class="com.gura.spring02.member.dao.MemberDaoImpl">
+   	
+   </beans:bean>
+   
    
    <!-- 
       위의 bean 설정을 java code 로 환산 하면 아래와 같다 
@@ -82,7 +86,7 @@
       sessionFactory.setDataSource(dataSource);
       sessionFactory.setConfigLocation("classpath:xxx");
       
-      new SqlSessionTemplate(sessionFactory);
+      new SqlSessionTemplate(sessionFactory); => dao 클래스에 직접 SqlSession 객체를 선언하고 @Autowired 의존 주입하여 사용
     -->
     
     
@@ -104,6 +108,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 어떤 패키지를 component scan을 할지에 대한 설정 -->
 	<!-- component-scan을 통해서 자동으로 bean 설정할 수 있다. -->
 	<context:component-scan base-package="com.gura.spring02" />
 	
@@ -111,3 +116,29 @@
 	
 	
 </beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
