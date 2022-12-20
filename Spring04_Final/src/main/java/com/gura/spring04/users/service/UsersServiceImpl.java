@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +30,14 @@ public class UsersServiceImpl implements UsersService{
 	//회원 한명의 정보를 추가하는 메소드
 	@Override
 	public void addUser(UsersDto dto) {
-		// TODO Auto-generated method stub
+		//가입 시 입력한 비밀번호를 읽어와서
+		String pwd = dto.getPwd();
+		//암호화 한후에
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodePwd=encoder.encode(pwd);
+		//dto에 다시 넣어준다.
+		dto.setPwd(encodePwd);
+		//암호화된 비밀번호가 들어있는 dto를 dao에 전달해서 새로운 회원 정보를 추가한다.
 		dao.insert(dto);
 	}
 
@@ -40,19 +49,27 @@ public class UsersServiceImpl implements UsersService{
 		UsersDto resultDto = dao.getData(dto.getId());
 		//마일 select된 회원정보가 존재하고 
 		if(resultDto != null) {
+			//BCrypt 클래스의 static 메소드를 이용해서 입력한 비밀번호와 암호화해서 저장된 비밀번호 일치 여부를 알아내야한다.
+			isValid = BCrypt.checkpw(dto.getPwd(), resultDto.getPwd());
+			
 			//비밀번호도 일치한다면 isValid에 true를 대입한다.
-			isValid = dto.getPwd().equals(resultDto.getPwd()) ? true : false;
+			//isValid = dto.getPwd().equals(resultDto.getPwd()) ? true : false;
 		}
 		//만일 유효한 정보이면
 		if(isValid) {
-			//로그인 처리를 한다.
+			//로그인 처리를 한다. 
 			session.setAttribute("id", resultDto.getId());
 		}
 	}
 
 	@Override
 	public void getInfo(HttpSession session, ModelAndView mView) {
-		// TODO Auto-generated method stub
+		//로그인된 아이디를 읽어온다.
+		String id = (String)session.getAttribute("id");
+		//DB에서 회원 정보를 얻어와서
+		UsersDto dto = dao.getData(id);
+		//ModelAndView 객체에 담아준다,
+		mView.addObject("dto",dto);
 		
 	}
 
