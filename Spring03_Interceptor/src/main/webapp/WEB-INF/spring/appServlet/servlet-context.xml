@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- 
+		모든 요청은 Spring DispatcherServlet을 거치도록 했는데 거기에서 
+		배체할 파일에 대한 요청을 편하게 할수 있도록 설정한 것이다. 
+		
+		html, css, js, image등의 정적인 파일은 webapp/resources/ 폴더안에 특정 경로에 
+		넣어두고 사용하도록 되어있다. 
+		
+		1. mapping="/resources/**"  location="/resources/"  이게 기본 설정 
+		따라서 /resources/images/kim1.png를 클라이언트가 받아가기 위해서는
+		<img src="/spring03/resources/images/kim1.png"> 경로로 요청하면 된다.
+		
+		2. mapping="/**" location="/resources/" 만일 이렇게 변경하면 
+		/resources/images/kim1.png 를 클라이언트가 받아가기 위해서는 
+		<img scr="/spring03/images/kim1.png"> 경로로 요청하면 된다. 
+		(저장은 /resources/로 되어있지만 눈에 보이는 경로에서 /resources/ 는 삭제하여, 
+		webapp에서 바로 사용하는 것과 같은 효과를 낼수 있다. 
+		//**** spring boot 에서는 2번처럼 사용한다.
+		-->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+
+	<context:component-scan
+		base-package="com.gura.spring03" />
+
+
+	<!-- MyInterceptor 가 bean이 되도록 한다. -->
+	<beans:bean id="myInterceptor"
+		class="com.gura.interceptor.MyInterceptor" />
+
+	<!-- MyInterceptor 가 bean이 되도록 한다. -->
+	<beans:bean id="loginInterceptor"
+		class="com.gura.spring03.interceptor.LoginInterceptor" />
+
+	<!-- 인터 셉터 목록 -->
+	<interceptors>
+		<!-- myIntercepter 가 /play 요청에 대해 끼어들도록 설정한다. -->
+		<interceptor>
+			<mapping path="/play" />
+			<beans:ref bean="myInterceptor" />
+		</interceptor>
+
+		<!-- /users/하위의 모든 요청에 대해 loginInterceptor가 끼어 들도록 설정한다. -->
+		<interceptor>
+			<mapping path="/users/*" />
+			<exclude-mapping path="/users/loginform" />
+			<exclude-mapping path="/users/login" />
+			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+		
+		<!-- 또다른 경로에 대해서 맵핑하고 싶다면 interceptor 설정을 하나 추가한다. -->
+		<interceptor>
+			<mapping path="/file/*"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+	</interceptors>
+
+
+	<!-- 
+		Multipart 폼 전송 처리를 위한 bean 설정 
+		
+		최대 업로드 사이즈 제한하기 
+		name="maxUploadSize" value="byte 단위" //value에서는 연산자(1024*100)등이 안되기 때문에 숫자로만 기재 
+	-->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="102400000" />
+	</beans:bean>
+
+
+
+
+
+
+</beans:beans>
