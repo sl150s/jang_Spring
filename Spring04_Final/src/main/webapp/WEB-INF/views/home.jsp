@@ -24,8 +24,7 @@
 			</c:otherwise>
 		</c:choose>
 		<h1>인텍스 페이지 입니다.</h1>
-		<h3>공지사항</h3>
-		<a href="${pageContext.request.contextPath}/users/signup_form">회원가입</a>
+		ㅁ
 		<ul>
 			<c:forEach var="tmp" items="${noticeList}">
 				<li>${tmp}</li>
