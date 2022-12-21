@@ -1,5 +1,7 @@
 package com.gura.spring04.users.service;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,11 +68,10 @@ public class UsersServiceImpl implements UsersService {
 	public void getInfo(HttpSession session, ModelAndView mView) {
 		// 로그인된 아이디를 읽어온다.
 		String id = (String) session.getAttribute("id");
-		// DB에서 회원 정보를 얻어와서
+		// DB 에서 회원 정보를 얻어와서
 		UsersDto dto = dao.getData(id);
-		// ModelAndView 객체에 담아준다,
+		// ModelAndView 객체에 담아준다.
 		mView.addObject("dto", dto);
-
 	}
 
 	@Override
@@ -100,8 +101,8 @@ public class UsersServiceImpl implements UsersService {
 			session.removeAttribute("id");
 		}
 		// 작업의 성공여부를 ModelAndView 객체에 담아 놓는다(결국 HttpServletRequest 에 담긴다)
-		//mView에 담는 이유: session.removeAttribute("id"); 로 로그아웃하여 session에 담긴 id값이 없기 때문에 
-		// 일단 mView에 담는것이다. 
+		// mView에 담는 이유: session.removeAttribute("id"); 로 로그아웃하여 session에 담긴 id값이 없기 때문에
+		// 일단 mView에 담는것이다.
 		mView.addObject("isSuccess", isValid);
 		// 로그인된 아이디도 담아준다.
 		mView.addObject("id", id);
@@ -109,25 +110,60 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public Map<String, Object> saveProfileImage(HttpServletRequest request, MultipartFile mFile) {
-		// TODO Auto-generated method stub
-		return null;
+		// 업로드된 파일에 대한 정보를 MultipartFile 객체를 이용해서 얻어낼수 있다.
+
+		// 원본 파일명
+		String orgFileName = mFile.getOriginalFilename();
+		// upload 폴더에 저장할 파일명을 직접구성한다.
+		// 1234123424343xxx.jpg
+		String saveFileName = System.currentTimeMillis() + orgFileName;
+
+		// webapp/upload 폴더까지의 실제 경로 얻어내기
+		String realPath = request.getServletContext().getRealPath("/resources/upload");
+		// upload 폴더가 존재하지 않을경우 만들기 위한 File 객체 생성
+		File upload = new File(realPath);
+		if (!upload.exists()) {// 만일 존재 하지 않으면
+			upload.mkdir(); // 만들어준다.
+		}
+		try {
+			// 파일을 저장할 전체 경로를 구성한다.
+			String savePath = realPath + File.separator + saveFileName;
+			// 임시폴더에 업로드된 파일을 원하는 파일을 저장할 경로에 전송한다.
+			mFile.transferTo(new File(savePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// json 문자열을 출력하기 위한 Map 객체 생성하고 정보 담기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("imagePath", "/resources/upload/" + saveFileName);
+		return map;
 	}
 
 	@Override
 	public void updateUser(UsersDto dto, HttpSession session) {
-		
+		// 수정할 회원의 아이디
+		String id = (String) session.getAttribute("id");
+		// dto에 id도 넣어준다.
+		dto.setId(id);
+		// 만일 프로필 이미지를 등록하지 않은 상태이면
+		if (dto.getProfile().equals("empty")) {
+			// users 테이블의 profile 칼럼을 null인 상태로 유지하기 위해 profile에 null을 넣어준다.
+			dto.setProfile(null);
+		}
+		dao.update(dto);
 	}
 
 	@Override
 	public void deleteUser(HttpSession session, ModelAndView mView) {
-		//로그인된 아이디를 얻어와서
-		String id=(String)session.getAttribute("id");
-		//해당 정보를 DB에서 삭제하고
+		// 로그인된 아이디를 얻어와서
+		String id = (String) session.getAttribute("id");
+		// 해당 정보를 DB에서 삭제하고
 		dao.delete(id);
-		//로그아웃 처리도 한다.
+		// 로그아웃 처리도 한다.
 		session.removeAttribute("id");
-		//ModelAndView 객체에 탈퇴한 회원의 아이디를 담아준다.
-		mView.addObject("id",id);
+		// ModelAndView 객체에 탈퇴한 회원의 아이디를 담아준다.
+		mView.addObject("id", id);
 	}
 
 }

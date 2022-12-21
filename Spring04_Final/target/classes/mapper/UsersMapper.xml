@@ -17,9 +17,21 @@
 	</select>
 	
 	<!-- 회원 정보 수정  -->
+	<!-- 1) 
+		<if test="profile != null">,profile = #{profile}</if>
+	
+		 profile이 null이 아닐때만(프로필 사진이 있을때만) ,profile = #{profile} 조건을 추가하기
+		 이렇게 하는 이유 : profile이 null이여도 이미지가 들어가려하기때문에 엑박이 뜨기 때문
+	 -->
+	 
+	 <!-- 
+	 	int, long, loat, double, String type에 대응되는 jdbcType 종류 
+	 	
+	 	INTEGER, BIGINT, FLAT, DOUBLE, VARCHAR 
+	 -->
 	<update id="update" parameterType="com.gura.spring04.users.dto.UsersDto">
 		UPDATE users
-		SET profile = #{profile}, email = #{email}
+		SET email = #{email} ,profile=#{profile,jdbcType=VARCHAR}
 		WHERE id = #{id}
 	</update>
 	

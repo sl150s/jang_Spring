@@ -9,8 +9,6 @@
 </head>
 <body>
 	<div class="container">
-
-		
 		<c:choose>
 			<c:when test="${ empty sessionScope.id}">
 				<a href="${pageContext.request.contextPath}/users/loginform">로그인</a>
@@ -24,7 +22,13 @@
 			</c:otherwise>
 		</c:choose>
 		<h1>인텍스 페이지 입니다.</h1>
-		ㅁ
+		<ul>
+			<li><a href="get_msg">@ResponseBody 어노테이션 테스트 </a></li>
+			<li><a href="get_person">한명의 정보 </a></li>
+			<li><a href="get_user">회원 한명의 정보 </a></li>
+			<li><a href="get_friends">친구목록</a></li>
+			<li><a href="get_users">회원 목록</a></li>
+		</ul>
 		<ul>
 			<c:forEach var="tmp" items="${noticeList}">
 				<li>${tmp}</li>

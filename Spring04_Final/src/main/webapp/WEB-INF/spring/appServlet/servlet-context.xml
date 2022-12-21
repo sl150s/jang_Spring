@@ -90,5 +90,17 @@
 			<beans:ref bean="logininterceptor"/>
 		</interceptor>
 	</interceptors>
+	
+	<!-- 
+		Multipart 폼 전송 처리를 위한 bean 설정 
+		
+		최대 업로드 사이즈 제한하기 
+		name="maxUploadSize" value="byte 단위" //value에서는 연산자(1024*100)등이 안되기 때문에 숫자로만 기재 
+	-->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="102400000" />
+	</beans:bean>
+	
 
 </beans:beans>
