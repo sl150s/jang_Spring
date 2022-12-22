@@ -45,9 +45,11 @@ public class FileController {
 	@RequestMapping("/file/delete")
 	public ModelAndView delete(int num , HttpServletRequest request, ModelAndView mView) {
 		service.deleteFile(num, request);
-		String cPath = request.getContextPath();
-		//response.sendRedirect(cPath + "/file/list.jsp");
-		mView.setViewName("redirect:"+cPath+"/file/list");
+		
+//		String cPath = request.getContextPath();
+//		//response.sendRedirect(cPath + "/file/list.jsp");
+		
+		mView.setViewName("redirect:/file/list");
 		return mView;
 	}
 }

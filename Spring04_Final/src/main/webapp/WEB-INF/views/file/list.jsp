@@ -77,6 +77,7 @@
              </c:if>
          </ul>
       </nav>
+
    </div>
    <script>
       function deleteConfirm(num){

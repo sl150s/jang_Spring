@@ -23,8 +23,8 @@
 	</select>
 
 	<delete id="delete" parameterType="int">
-		DELETE FROM border_file
-		WHERE num = #{num}
+		DELETE FROM board_file
+		WHERE num=#{num}
 	</delete>
 
 	<select id="getList"
