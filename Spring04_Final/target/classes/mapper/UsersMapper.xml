@@ -3,14 +3,14 @@
 
 <mapper namespace="users">
 
-	<insert id="insert" parameterType="com.gura.spring04.users.dto.UsersDto">
+	<insert id="insert" parameterType="usersDto">
 		INSERT INTO users
 		(id,pwd,email,regdate)
 		VALUES (#{id}, #{pwd}, #{email}, SYSDATE)
 	</insert>
 	
 	
-	<select id="getData" parameterType="string" resultType="com.gura.spring04.users.dto.UsersDto">
+	<select id="getData" parameterType="string" resultType="usersDto">
 		SELECT id, pwd, profile,email, regdate
 		FROM users
 		WHERE id = #{id}
@@ -24,19 +24,19 @@
 		 이렇게 하는 이유 : profile이 null이여도 이미지가 들어가려하기때문에 엑박이 뜨기 때문
 	 -->
 	 
-	 <!-- 
+	 <!-- 2)
 	 	int, long, loat, double, String type에 대응되는 jdbcType 종류 
 	 	
 	 	INTEGER, BIGINT, FLAT, DOUBLE, VARCHAR 
 	 -->
-	<update id="update" parameterType="com.gura.spring04.users.dto.UsersDto">
+	<update id="update" parameterType="usersDto">
 		UPDATE users
 		SET email = #{email} ,profile=#{profile,jdbcType=VARCHAR}
 		WHERE id = #{id}
 	</update>
 	
 	<!-- 비밀번호 수정? -->
-	<update id="updatePwd" parameterType="com.gura.spring04.users.dto.UsersDto">
+	<update id="updatePwd" parameterType="usersDto">
 		UPDATE users
 		SET pwd = #{newPwd} 
 		WHERE id = #{id}

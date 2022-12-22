@@ -46,10 +46,7 @@
 	</beans:bean>
 
 
-	<!-- <beans:bean
-		class="com.gura.spring04.member.dao.MemberDaoImpl">
-
-	</beans:bean> -->
+	<!-- <beans:bean class="com.gura.spring04.member.dao.MemberDaoImpl"> </beans:bean> -->
 
 
 
@@ -73,34 +70,43 @@
 
 	<context:component-scan
 		base-package="com.gura.spring04" />
-		
-	<!-- 
-		인터셉터를 동작하기 위해서는 인터셉터도 bean 되어야하고 
-		어떤 요청에서 인터셉터가 동작할지 url을 맵핑해야 한다.
-	-->
-	<beans:bean id="logininterceptor" class="com.gura.spring04.interceptor.LoginInterceptor"/>
+
+	<!-- 인터셉터를 동작하기 위해서는 인터셉터도 bean 되어야하고 어떤 요청에서 인터셉터가 동작할지 url을 맵핑해야 한다. -->
+	<beans:bean id="logininterceptor"
+		class="com.gura.spring04.interceptor.LoginInterceptor" />
 
 	<interceptors>
 		<interceptor>
-			<mapping path="/users/*"/>
-			<exclude-mapping path="/users/signup_form"/>
-			<exclude-mapping path="/users/signup"/>
-			<exclude-mapping path="/users/loginform"/>
-			<exclude-mapping path="/users/login"/>
-			<beans:ref bean="logininterceptor"/>
+			<mapping path="/users/*" />
+			<exclude-mapping path="/users/signup_form" />
+			<exclude-mapping path="/users/signup" />
+			<exclude-mapping path="/users/loginform" />
+			<exclude-mapping path="/users/login" />
+			<beans:ref bean="logininterceptor" />
+		</interceptor>
+
+		<interceptor>
+			<mapping path="/file/*" />
+			<exclude-mapping path="/file/list" />
+			<exclude-mapping path="/file/download" />
+			<beans:ref bean="logininterceptor" />
 		</interceptor>
 	</interceptors>
-	
-	<!-- 
-		Multipart 폼 전송 처리를 위한 bean 설정 
-		
-		최대 업로드 사이즈 제한하기 
-		name="maxUploadSize" value="byte 단위" //value에서는 연산자(1024*100)등이 안되기 때문에 숫자로만 기재 
-	-->
+
+	<!-- Multipart 폼 전송 처리를 위한 bean 설정 최대 업로드 사이즈 제한하기 name="maxUploadSize" 
+		value="byte 단위" //value에서는 연산자(1024*100)등이 안되기 때문에 숫자로만 기재 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="102400000" />
 	</beans:bean>
-	
+
+
+	<!-- bean 의 이름을 이용해서 view 로 이동할수 있도록 설정 setOrder(0) 는 0 순위로 찾아 가겠다는 의미 0 
+		순위로 찾아서 없으면 views 폴더 안에서 jsp 페이지를 찾게 된다. -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0" />
+	</beans:bean>
+
 
 </beans:beans>

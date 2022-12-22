@@ -120,8 +120,7 @@ public class UsersController {
 	
 	//회원정보 수정 반영 요청 처리 
 	@RequestMapping(value="/users/update", method=RequestMethod.POST)
-	public ModelAndView update(UsersDto dto, HttpSession session, ModelAndView mView, 
-			HttpServletRequest request) {
+	public ModelAndView update(UsersDto dto, HttpSession session, ModelAndView mView) {
 		//서비스 이용해서 개인정보를 수정하고
 		service.updateUser(dto, session);
 		//개인정보 보기로 리다일렉트 이동시킨다 
