@@ -39,7 +39,7 @@
 	         		<td>${tmp.regdate }</td>
 	         		<td>
 	         			<c:if test="${ tmp.writer eq sessionScope.id}">
-	         				<a href="javascript:deleteConfirm(${ tmp.num()})">삭제</a>
+	         				<a href="javascript:deleteConfirm(${tmp.num})">삭제</a>
 	         			</c:if>
 	         		</td>
 	         	</tr>
@@ -82,7 +82,7 @@
       function deleteConfirm(num){
          let isDelete=confirm("삭제 하시겠습니까?");
          if(isDelete){
-            location.href="delete.jsp?num="+num;
+            location.href="delete?num="+num;
          }
       }
    </script>
