@@ -37,14 +37,38 @@
 				(SELECT num,writer,title,orgFileName,saveFileName,
 					fileSize,regdate
 				FROM board_file
-		
+				
+				<choose>
+					<when test="title != null and orgFileName != null">
+						WHERE title LIKE '%'||#{title}||'%' AND orgFileName LIKE '%'||#{orgFileName}||'%'
+					</when>
+					<when test="title != null">
+						WHERE title LIKE '%'||#{title}||'%'
+					</when>
+					<when test="writer != null">
+						WHERE writer LIKE '%'||#{writer}||'%'
+					</when>
+				</choose>
+				
 				ORDER BY num DESC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
-	
+	<!-- oracle에서 ||는 문자열을 합쳐준다  -->
 	<select id="getCount" parameterType="FileDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM board_file
+		
+		<choose>
+			<when test="title != null and orgFileName != null">
+				WHERE title LIKE '%'||#{title}||'%' AND orgFileName LIKE '%'||#{orgFileName}||'%'
+			</when>
+			<when test="title != null">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="writer != null">
+				WHERE writer LIKE '%'||#{writer}||'%'
+			</when>
+		</choose>
    </select>
 </mapper>
 
