@@ -110,11 +110,15 @@ public class CafeServiceImpl implements CafeService{
 
 	@Override
 	public void getDetail(HttpServletRequest request) {
-		//보려는 번호 가져오기 
+		//자세히 보여줄 글 번호를 읽어온다. 
 		int num = Integer.parseInt(request.getParameter("num"));
+		//조회수 올리기 
+		cafeDao.addViewCount(num);
 		
 		//해당 번호의 컨텐츠 내용 가져오기
 		CafeDto dto = cafeDao.getData(num);
+		
+		//request scope에 글 하나의 정보를 담기
 		request.setAttribute("dto", dto);
 	}
 

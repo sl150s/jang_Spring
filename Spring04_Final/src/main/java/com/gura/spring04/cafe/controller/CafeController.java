@@ -24,11 +24,9 @@ public class CafeController {
 	}
 	
 	@RequestMapping("/cafe/detail")
-	public ModelAndView detail(HttpServletRequest request, int num, ModelAndView mView) {
+	public String detail(HttpServletRequest request) {
 		service.getDetail(request);
-		mView.addObject(num);
-		mView.setViewName("cafe/detail");
-		return mView;
+		return "cafe/detail";
 	}
 	
 	@RequestMapping("/cafe/insertform")

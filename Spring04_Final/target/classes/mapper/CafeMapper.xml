@@ -12,11 +12,13 @@
 	</insert>
 
 	<select id="getData" parameterType="int" resultType="cafeDto">
-		SELECT num,
-		writer, title, content, viewCount,
-		TO_CHAR(regdate, 'yyyy.mm.dd
-		hh24:mi') regdate
-		FROM board_cafe
+		SELECT result1.*
+		FROM (SELECT num, writer, title, content, viewCount,
+				TO_CHAR(regdate, 'yyyy.mm.dd
+				hh24:mi') regdate , 
+				LAG(num,1,0) OVER (ORDER BY num DESC) nextNum, 
+				LEAD(num,1,0) OVER (ORDER BY num DESC) prevNum
+			FROM board_cafe) result1
 		WHERE num = #{num}
 	</select>
 
