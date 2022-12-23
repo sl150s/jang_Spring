@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/views/file/list.jsp</title>
+<title>/views/cafe/list.jsp</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -18,17 +18,16 @@
 </head>
 <body>
 	<div class="container">
-		<a href="${pageContext.request.contextPath }/file/upload_form">업로드
+		<a href="${pageContext.request.contextPath }/cafe/insertform">업로드
 			하기</a>
-		<h3>자료실 목록 보기</h3>
+		<h3>카페글 목록 보기</h3>
 		<table class="table table-striped">
 			<thead class="table-dark">
 				<tr>
 					<th>번호</th>
 					<th>작성자</th>
 					<th>제목</th>
-					<th>파일명</th>
-					<th>크기</th>
+					<th>조회수</th>
 					<th>등록일</th>
 					<th>삭제</th>
 				</tr>
@@ -38,15 +37,14 @@
 					<tr>
 						<td>${tmp.num }</td>
 						<td>${tmp.writer }</td>
-						<td>${tmp.title }</td>
-						<td>${tmp.num }</td>
-						<td><a href="download?num=${tmp.num}">${tmp.orgFileName}</a>
-						</td>
-						<td>${tmp.fileSize }</td>
+						<td><a href="detail?num=${tmp.num}">${tmp.title }</a></td>
+						<td>${tmp.viewCount }</td>
 						<td>${tmp.regdate }</td>
-						<td><c:if test="${ tmp.writer eq sessionScope.id}">
+						<td>
+							<c:if test="${ tmp.writer eq sessionScope.id}">
 								<a href="javascript:deleteConfirm(${tmp.num})">삭제</a>
-							</c:if></td>
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -85,7 +83,7 @@
 		<form action="list" method="get">
 			<label for="condition">검색조건</label>
 			<select name="condition" id="condition">
-				<option value="title_filename" ${condition eq 'title_filename' ? 'selected':'' }>제목 + 파일명</option>
+				<option value="title_Content" ${condition eq 'title_Content' ? 'selected':'' }>제목 + 내용</option>
 				<option value="title" ${condition eq 'title' ? 'selected':'' }>제목</option>
 				<option value="writer" ${condition eq 'writer' ? 'selected':'' }>작성자</option>
 			</select>

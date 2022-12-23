@@ -91,6 +91,12 @@
 			<exclude-mapping path="/file/download" />
 			<beans:ref bean="logininterceptor" />
 		</interceptor>
+		
+		<interceptor>
+			<mapping path="/cafe/*" />
+			<exclude-mapping path="/cafe/list" />
+			<beans:ref bean="logininterceptor" />
+		</interceptor>
 	</interceptors>
 
 	<!-- Multipart 폼 전송 처리를 위한 bean 설정 최대 업로드 사이즈 제한하기 name="maxUploadSize" 

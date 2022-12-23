@@ -86,8 +86,8 @@ public class FileServiceImpl implements FileService {
 		// 파일 목록을 select 해 온다.(검색 키워드가 있는 경우 키워드에 부합하는 전체 글)
 		List<FileDto> list = dao.getList(dto);
 		
-		// 전체 글의 갯수
-		int totalRow = dao.getCount(new FileDto());
+		// 전체 글의 갯수(검색 키워드가 있는 경우 키워드에 부합하는 전체 글의 갯수) 
+		int totalRow = dao.getCount(dto);
 		// 하단 시작 페이지 번호
 		int startPageNum = 1 + ((pageNum - 1) / PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
 		// 하단 끝 페이지 번호
