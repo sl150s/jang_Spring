@@ -115,11 +115,50 @@ public class CafeServiceImpl implements CafeService{
 		//조회수 올리기 
 		cafeDao.addViewCount(num);
 		
+		/* ===============================================
+        [ 검색 키워드에 관련된 처리 ]
+        -검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.      
+		 */
+		 String keyword=request.getParameter("keyword");
+		 String condition=request.getParameter("condition");
+		//만일 키워드가 넘어오지 않는다면 
+	     if(keyword==null){
+	        //키워드와 검색 조건에 빈 문자열을 넣어준다. 
+	        //클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
+	        keyword="";
+	        condition=""; 
+	     }
+	     
+	   //특수기호를 인코딩한 키워드를 미리 준비한다. 
+	     String encodedK=URLEncoder.encode(keyword);
+	     
+	   //CafetDto 객체를 생성해서 
+	     CafeDto dto=new CafeDto();
+	     //자세히 보여줄 글 번호를 넣어준다. 
+	     dto.setNum(num);
+
+	     //만일 검색 키워드가 넘어온다면 
+	     if(!keyword.equals("")){
+	        //검색 조건이 무엇이냐에 따라 분기 하기
+	        if(condition.equals("title_Content")){//제목 + 내용 검색인 경우
+	           dto.setTitle(keyword);
+	           dto.setContent(keyword);
+	        }else if(condition.equals("title")){ //제목 검색인 경우
+	           dto.setTitle(keyword);
+	        }else if(condition.equals("writer")){ //작성자 검색인 경우
+	           dto.setWriter(keyword);
+	        } // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
+	     }
+	     
+		 
 		//해당 번호의 컨텐츠 내용 가져오기
-		CafeDto dto = cafeDao.getData(num);
+		CafeDto resultDto = cafeDao.getData(dto);
 		
 		//request scope에 글 하나의 정보를 담기
-		request.setAttribute("dto", dto);
+		request.setAttribute("dto", resultDto);
+		request.setAttribute("encodedK", encodedK); //인코딩된 키워드
+		request.setAttribute("keyword", keyword); //키워드
+		request.setAttribute("condition", condition); //검색조건 
 	}
 
 	@Override
@@ -129,14 +168,12 @@ public class CafeServiceImpl implements CafeService{
 
 	@Override
 	public void updateContent(CafeDto dto) {
-		// TODO Auto-generated method stub
-		
+		cafeDao.update(dto);
 	}
 
 	@Override
 	public void deleteContent(int num, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		
+		cafeDao.delete(num);
 	}
 
 	@Override

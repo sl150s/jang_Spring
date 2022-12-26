@@ -21,6 +21,21 @@
 			FROM board_cafe) result1
 		WHERE num = #{num}
 	</select>
+	
+	<select id="getData2" parameterType="cafeDto" resultType="cafeDto">
+		SELECT result1.*
+		FROM (SELECT num, writer, title, content, viewCount,
+				TO_CHAR(regdate, 'yyyy.mm.dd
+				hh24:mi') regdate , 
+				LAG(num,1,0) OVER (ORDER BY num DESC) nextNum, 
+				LEAD(num,1,0) OVER (ORDER BY num DESC) prevNum
+			FROM board_cafe
+			
+			<include refid="searchCondition"/>
+
+			) result1
+		WHERE num = #{num}
+	</select>
 
 	<update id="addViewCount" parameterType="int">
 		UPDATE board_cafe

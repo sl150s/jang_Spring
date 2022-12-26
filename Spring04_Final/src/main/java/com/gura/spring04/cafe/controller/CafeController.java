@@ -34,7 +34,7 @@ public class CafeController {
 		return "cafe/insertform";
 	}
 	
-	@RequestMapping("cafe/insert")
+	@RequestMapping("/cafe/insert")
 	public String insert(CafeDto dto, HttpSession session) { 
 		//글 작성자는 세션에서 얻어낸다.
 		String writer = (String)session.getAttribute("id");
@@ -42,6 +42,25 @@ public class CafeController {
 		dto.setWriter(writer);
 		service.saveContent(dto);
 		return "cafe/insert";
+	}
+	
+	@RequestMapping("/cafe/updateform")
+	public String updateform(HttpServletRequest request) {
+		service.getDetail(request);
+		return "cafe/updateform"; 
+	}
+	
+	@RequestMapping("/cafe/update")
+	public String update(HttpServletRequest request,CafeDto dto) {
+		service.updateContent(dto);
+		request.setAttribute("dto", dto);
+		return "cafe/update";
+	}
+	
+	@RequestMapping("/cafe/delete")
+	public String delete(int num, HttpServletRequest request) {
+		service.deleteContent(num, request);
+		return "redirect:/cafe/list";
 	}
 
 }

@@ -18,8 +18,7 @@
 </head>
 <body>
 	<div class="container">
-		<a href="${pageContext.request.contextPath }/cafe/insertform">업로드
-			하기</a>
+		<a href="${pageContext.request.contextPath }/cafe/insertform">새 글 작성</a>
 		<h3>카페글 목록 보기</h3>
 		<table class="table table-striped">
 			<thead class="table-dark">
@@ -37,7 +36,7 @@
 					<tr>
 						<td>${tmp.num }</td>
 						<td>${tmp.writer }</td>
-						<td><a href="detail?num=${tmp.num}">${tmp.title }</a></td>
+						<td><a href="detail?num=${tmp.num}&condition=${condition}&keyword=${encodedK}">${tmp.title }</a></td>
 						<td>${tmp.viewCount }</td>
 						<td>${tmp.regdate }</td>
 						<td>
