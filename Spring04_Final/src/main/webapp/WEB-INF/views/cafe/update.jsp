@@ -9,8 +9,8 @@
 </head>
 <body>
 	<script>
-		alert("수정완료 되었습니다.");
-		location.href = "${pageContext.request.contextPath}/cafe/detail?num=${dto.num}";
+		alert("${id}님 글을 수정 완료했습니다.");
+		location.href = "${pageContext.request.contextPath}/cafe/detail?num=${param.num}";
 	</script>
 </body>
 </html>

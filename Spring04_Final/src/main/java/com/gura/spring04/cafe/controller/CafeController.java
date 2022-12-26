@@ -46,14 +46,13 @@ public class CafeController {
 	
 	@RequestMapping("/cafe/updateform")
 	public String updateform(HttpServletRequest request) {
-		service.getDetail(request);
+		service.getData(request);
 		return "cafe/updateform"; 
 	}
 	
 	@RequestMapping("/cafe/update")
 	public String update(HttpServletRequest request,CafeDto dto) {
 		service.updateContent(dto);
-		request.setAttribute("dto", dto);
 		return "cafe/update";
 	}
 	
