@@ -27,5 +27,5 @@ public class Boot01Hello2Application {
 		LegacyCar c3 = ctx2.getBean(LegacyCar.class);
 		c3.drive();
 	}
-
+	
 }
