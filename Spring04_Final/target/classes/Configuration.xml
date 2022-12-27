@@ -11,6 +11,8 @@
 		<typeAlias type="com.gura.spring04.file.dto.FileDto" alias="FileDto"></typeAlias>
 		<typeAlias type="com.gura.spring04.cafe.dto.CafeDto" alias="cafeDto"></typeAlias>
 		<typeAlias type="com.gura.spring04.cafe.dto.CafeCommentDto" alias="cafeCommentDto"></typeAlias>
+		<typeAlias type="com.gura.spring04.shop.dto.ShopDto" alias="shopDto"></typeAlias>
+		<typeAlias type="com.gura.spring04.shop.dto.OrderDto" alias="orderDto"></typeAlias>
 	</typeAliases>
 	
 	
@@ -20,5 +22,6 @@
 		<mapper resource="mapper/FileMapper.xml" />
 		<mapper resource="mapper/CafeMapper.xml" />
 		<mapper resource="mapper/CafeCommentMapper.xml" />
+		<mapper resource="mapper/ShopMapper.xml" />
 	</mappers>
 </configuration>

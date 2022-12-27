@@ -30,6 +30,7 @@
 			<li><a href="get_users">회원 목록</a></li>
 			<li><a href="file/list">자료실 목록보기</a></li>
 			<li><a href="cafe/list">카페글 목록보기</a></li>
+			<li><a href="shop/list">과일 사러 가기</a></li>
 		</ul>
 		<ul>
 			<c:forEach var="tmp" items="${noticeList}">
