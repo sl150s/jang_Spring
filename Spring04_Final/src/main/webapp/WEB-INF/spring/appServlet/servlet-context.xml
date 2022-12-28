@@ -103,6 +103,13 @@
 			<exclude-mapping path="/cafe/ajax_comment.list" />
 			<beans:ref bean="logininterceptor" />
 		</interceptor>
+		
+		<interceptor>
+			<mapping path="/gallery/*" />
+			<exclude-mapping path="/gallery/list" />
+			<exclude-mapping path="/gallery/detail" />
+			<beans:ref bean="logininterceptor" />
+		</interceptor>
 	</interceptors>
 
 	<!-- Multipart 폼 전송 처리를 위한 bean 설정 최대 업로드 사이즈 제한하기 name="maxUploadSize" 

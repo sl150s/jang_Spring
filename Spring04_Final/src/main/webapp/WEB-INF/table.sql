@@ -97,10 +97,21 @@ INSERT INTO client_account
 (id, money,point)
 VALUES('dd',10000,0);
 
--- 다시 실행하기
+-- 계좌 데이터 리셋하여 다시 실행하기
 UPDATE client_account
 SET money=10000, point = 0 
 WHERE id ='kimgura';
 
 UPDATE shop
 SET remainCount=5;
+
+-- 이미지 겔러리를 만들기 위한 테이블 
+CREATE TABLE board_gallery(
+   num NUMBER PRIMARY KEY,
+   writer VARCHAR2(100),
+   caption VARCHAR2(100), -- 이미지에 대한 설명
+   imagePath VARCHAR2(100), -- 업로드된 이미지의 경로  ex) /upload/xxx.jpg
+   regdate DATE -- 이미지 업로드 날짜 
+);
+
+CREATE SEQUENCE board_gallery_seq;
