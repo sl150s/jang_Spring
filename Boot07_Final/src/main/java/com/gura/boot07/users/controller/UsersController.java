@@ -1,5 +1,6 @@
 package com.gura.boot07.users.controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeEditor;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,13 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
+	//fileLocation은 로컬 저장 경로(다른 저장경로)를 가리킨다.(ex:C:\\data..) 
+	@Value("${file.location}")
+	private String fileLocation;
+	
+	
+	
+	
 	//프로필 이미지 요청에 대한 응답을 할 메소드를 따로 만들어야 한다.
 	//이미지 데이터가 응답되어야 한다.
 	//웹브라우저에게 이미지 데이터를 앙답한다고 알려야 한다.
@@ -42,7 +51,7 @@ public class UsersController {
 	@ResponseBody
 	public byte[] profileImage(@PathVariable("imageName") String imageName) throws IOException {
 		
-		String absolutePath = "C:\\data\\"+ imageName;
+		String absolutePath=fileLocation+File.separator+imageName;
 		//파일에서 읽어들일 InputStream
 		InputStream is = new FileInputStream(absolutePath);
 		
