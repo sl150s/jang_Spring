@@ -2,7 +2,7 @@ package com.gura.boot07.shop.dto;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias("shop")
+@Alias("shopDto")
 public class ShopDto {
 	private int num ;//상품번호
 	private String name; //상품명

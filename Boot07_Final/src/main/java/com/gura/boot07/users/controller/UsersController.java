@@ -1,13 +1,22 @@
 package com.gura.boot07.users.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +31,27 @@ public class UsersController {
 
 	@Autowired
 	private UsersService service;
+	
+	//프로필 이미지 요청에 대한 응답을 할 메소드를 따로 만들어야 한다.
+	//이미지 데이터가 응답되어야 한다.
+	//웹브라우저에게 이미지 데이터를 앙답한다고 알려야 한다.
+	//응답할 이미지의 이름은 그때 그때 다르다.
+	@GetMapping(
+			value="/users/profile/{imageName}",
+			produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE,  MediaType.IMAGE_GIF_VALUE})
+	@ResponseBody
+	public byte[] profileImage(@PathVariable("imageName") String imageName) throws IOException {
+		
+		String absolutePath = "C:\\data\\"+ imageName;
+		//파일에서 읽어들일 InputStream
+		InputStream is = new FileInputStream(absolutePath);
+		
+		return IOUtils.toByteArray(is);
+	}
+	
+	
+	
+	
 
 	/*
 	 * GET 방식 /users/signup_form 요청을 처리할 메소드 - 요청방식이 다르면 실행되지 않는다. - 때로는 경로요청 뿐만 아니라

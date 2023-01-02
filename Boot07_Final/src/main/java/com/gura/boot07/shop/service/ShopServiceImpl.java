@@ -69,7 +69,7 @@ public class ShopServiceImpl implements ShopService {
 		dto2.setId(id); // 누가
 		dto2.setCode(num); // 어떤 상품을
 		// 클라이언트가 입력한 배송 주소라고 가정
-		String addr = "제주도 강남구 삼원타워";
+		String addr = "동작구";
 		
 		//가상의 테스트 ----- addr이 '제주도'일 경우 exception 일어나게 하기
 		if(addr.contains("제주도")) {

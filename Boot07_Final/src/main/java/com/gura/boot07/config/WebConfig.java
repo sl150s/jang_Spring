@@ -21,7 +21,8 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/users/signup_form", "/users/signup", "/users/loginform", "/users/login",
 				"/gallery/upload_form","/gallery/upload","/gallery/list"," /gallery/detail",
 				"/cafe/list","/cafe/detail","/cafe/ajax_comment_list", 
-				"/file/list", "file/download/");
+				"/file/list", "file/download/", 
+				"/users/profile/*");
 	}
 	
 	@Override
