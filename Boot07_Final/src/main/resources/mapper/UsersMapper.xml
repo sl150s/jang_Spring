@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+	<insert id="insert" parameterType="usersDto">
+		INSERT INTO users
+		(id,pwd,email,regdate)
+		VALUES (#{id}, #{pwd}, #{email}, SYSDATE)
+	</insert>
+	
+	
+	<select id="getData" parameterType="string" resultType="usersDto">
+		SELECT id, pwd, profile,email, regdate
+		FROM users
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 회원 정보 수정  -->
+	<!-- 1) 
+		<if test="profile != null">,profile = #{profile}</if>
+	
+		 profile이 null이 아닐때만(프로필 사진이 있을때만) ,profile = #{profile} 조건을 추가하기
+		 이렇게 하는 이유 : profile이 null이여도 이미지가 들어가려하기때문에 엑박이 뜨기 때문
+	 -->
+	 
+	 <!-- 2)
+	 	int, long, loat, double, String type에 대응되는 jdbcType 종류 
+	 	
+	 	INTEGER, BIGINT, FLAT, DOUBLE, VARCHAR 
+	 -->
+	<update id="update" parameterType="usersDto">
+		UPDATE users
+		SET email = #{email} ,profile=#{profile,jdbcType=VARCHAR}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 비밀번호 수정? -->
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE users
+		SET pwd = #{newPwd} 
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM users
+		WHERE id = #{id}
+	</delete>
+	
+	
+</mapper>
+
+
+
+
+
+
+
