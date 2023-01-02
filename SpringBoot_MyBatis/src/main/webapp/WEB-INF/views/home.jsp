@@ -16,8 +16,15 @@
 			</c:forEach>
 		</ul>
 		
-		<h3>resources/mages 폴더 안에 있는 이미지</h3>
+		<h3>resources/images 폴더 안에 있는 이미지</h3>
 		<img src="${pageContext.request.contextPath}/resources/images/kim1.png" />
+		
+		<h3>파일 업로드 폼</h3>
+		<form action="${pageContext.request.contextPath}/upload" method="post"
+		enctype="multipart/form-data">
+			첨부파일 <input type="file" name="file"/>
+			<button>업로드</button>
+		</form>
 	</div>
 </body>
 </html>
