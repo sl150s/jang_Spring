@@ -220,7 +220,7 @@
 									<%-- 만약 profile이 비어있지 않다면(사진이 있다면) --%>
 									<c:if test="${not empty tmp.profile }">
 										<img class="profile-image"
-											src="${pageContext.request.contextPath}${tmp.profile }" />
+											src="${pageContext.request.contextPath}/users/images/${tmp.profile }" />
 									</c:if>
 									<span>${tmp.writer }</span>
 									<%-- 댓글 번호와  comment_group 번호가 다르면 -> 대댓글이 있다면.. --%>

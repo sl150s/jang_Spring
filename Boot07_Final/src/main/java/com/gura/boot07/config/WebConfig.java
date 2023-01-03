@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer{
 				"/gallery/upload_form","/gallery/upload","/gallery/list"," /gallery/detail","/gallery/images",
 				"/cafe/list","/cafe/detail","/cafe/ajax_comment_list", 
 				"/file/list", "/file/download/", 
-				"/users/profile/*");
+				"/users/images/*");
 	}
 	
 	@Override

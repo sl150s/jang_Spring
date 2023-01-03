@@ -33,11 +33,35 @@ public class UsersController {
 
 	@Autowired
 	private UsersService service;
-	
-	
-	
-	
-	
+
+	// fileLocation은 로컬 저장 경로(다른 저장경로)를 가리킨다.(ex:C:\\data..)
+	@Value("${file.location}")
+	private String fileLocation;
+
+	// 프로필 이미지 요청에 대한 응답을 할 메소드를 따로 만들어야 한다.
+	// 이미지 데이터가 응답되어야 한다.
+	// 웹브라우저에게 이미지 데이터를 앙답한다고 알려야 한다.
+	// 응답할 이미지의 이름은 그때 그때 다르다.
+
+	/*
+	 * 이 컨트롤러 메소드에서 응답한 byte[] 배열을 클라이언ㄴ트 웹브라우저가 이미지로 인식하게 하는 방법 1. @ResponseBody 2.
+	 * byte[] 배열 리턴
+	 * 
+	 * 응답된 byte[] 배열에 있는 데이터를 이미지 데이터로 클라이언트 웹브라우저가 인식하게 하는 방법 produces =
+	 * MediaType.IMAGE_JPEG_VALUE
+	 */
+	@GetMapping(value = "/users/images/{imageName}", produces = { MediaType.IMAGE_JPEG_VALUE,
+			MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE })
+	@ResponseBody
+	public byte[] profileImage(@PathVariable("imageName") String imageName) throws IOException {
+
+		String absolutePath = fileLocation + File.separator + imageName;
+		// 파일에서 읽어들일 InputStream
+		InputStream is = new FileInputStream(absolutePath);
+
+		// 이미지 데이터(byte)를 읽어서 배열에 담아서 클라이언트에게 응답한다.
+		return IOUtils.toByteArray(is);
+	}
 
 	/*
 	 * GET 방식 /users/signup_form 요청을 처리할 메소드 - 요청방식이 다르면 실행되지 않는다. - 때로는 경로요청 뿐만 아니라
@@ -93,68 +117,62 @@ public class UsersController {
 	// 개인 정보 보기 요청 처리
 	@RequestMapping("/users/info")
 	public ModelAndView info(HttpSession session, ModelAndView mView) {
-		
+
 		service.getInfo(session, mView);
-		
+
 		mView.setViewName("users/info");
 		return mView;
-	}	
-	
-	//비밀번호 수정폼 요청처리 
+	}
+
+	// 비밀번호 수정폼 요청처리
 	@RequestMapping("/users/pwd_updateform")
 	public String pwdUpdateForm() {
 		return "users/pwd_updateform";
 	}
-	
-	//비밀번호 수정 요청처리 
+
+	// 비밀번호 수정 요청처리
 	@RequestMapping("/users/pwd_update")
 	public ModelAndView pwdUpdate(UsersDto dto, ModelAndView mView, HttpSession session) {
-		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다. 
+		// 서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
 		service.updateUserPwd(session, dto, mView);
-		//view page로 forward 이동해서 작업 결과를 응답한다. 
+		// view page로 forward 이동해서 작업 결과를 응답한다.
 		mView.setViewName("users/pwd_update");
 		return mView;
 	}
-	
-	//삭제 요청 
+
+	// 삭제 요청
 	@RequestMapping("/users/delete")
 	public ModelAndView delete(HttpSession session, ModelAndView mView) {
 		service.deleteUser(session, mView);
-		
+
 		mView.setViewName("users/delete");
 		return mView;
 	}
-	
 
-	//회원정보 수정 폼 
+	// 회원정보 수정 폼
 	@RequestMapping("/users/updateform")
-	public ModelAndView updateform(HttpSession session ,ModelAndView mView) {
+	public ModelAndView updateform(HttpSession session, ModelAndView mView) {
 		service.getInfo(session, mView);
 		mView.setViewName("users/updateform");
 		return mView;
 	}
-	
-	//회원정보 수정 반영 요청 처리 
-	@RequestMapping(value="/users/update", method=RequestMethod.POST)
+
+	// 회원정보 수정 반영 요청 처리
+	@RequestMapping(value = "/users/update", method = RequestMethod.POST)
 	public ModelAndView update(UsersDto dto, HttpSession session, ModelAndView mView) {
-		//서비스 이용해서 개인정보를 수정하고
+		// 서비스 이용해서 개인정보를 수정하고
 		service.updateUser(dto, session);
-		//개인정보 보기로 리다일렉트 이동시킨다 
+		// 개인정보 보기로 리다일렉트 이동시킨다
 		mView.setViewName("redirect:/users/info");
 		return mView;
 	}
-	
-	//ajax 프로필 사진 요청 처리 
-	@RequestMapping(value="/users/profile_upload" , method=RequestMethod.POST)
+
+	// ajax 프로필 사진 요청 처리
+	@RequestMapping(value = "/users/profile_upload", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> profileupload( MultipartFile image,HttpServletRequest request) {
-		
-		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 Map을 리턴해서 json 문자열응답하기 
-		return service.saveProfileImage(request,image);
+	public Map<String, Object> profileupload(MultipartFile image, HttpServletRequest request) {
+
+		// 서비스를 이용해서 이미지를 upload 폴더에 저장하고 Map을 리턴해서 json 문자열응답하기
+		return service.saveProfileImage(request, image);
 	}
 }
-
-
-
-
-
