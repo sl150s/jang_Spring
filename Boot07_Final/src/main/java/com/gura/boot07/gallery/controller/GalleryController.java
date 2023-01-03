@@ -84,6 +84,7 @@ public class GalleryController {
 		// form 에서 dto 로 데이터 받아옴
 		// dto : caption, MultipartFile image 를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오는데 사용
+		//return : {"imagePath" : "123123.jpg"} 형식으로 받음. 
 		service.saveImage(dto, request);
 
 		return "gallery/upload";
