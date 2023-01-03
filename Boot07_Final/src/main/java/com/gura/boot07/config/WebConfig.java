@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(loginInterceptor)
 		.addPathPatterns("/users/*", "/gallery/*", "/cafe/*", "/file/*", "/shop/*")
 		.excludePathPatterns("/users/signup_form", "/users/signup", "/users/loginform", "/users/login",
-				"/gallery/upload_form","/gallery/upload","/gallery/list"," /gallery/detail",
+				"/gallery/upload_form","/gallery/upload","/gallery/list"," /gallery/detail","/gallery/images",
 				"/cafe/list","/cafe/detail","/cafe/ajax_comment_list", 
 				"/file/list", "/file/download/", 
 				"/users/profile/*");
