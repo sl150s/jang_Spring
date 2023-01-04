@@ -47,7 +47,7 @@
 					<label> 
 						<!-- 체크박스를 체크하지 않으면 isSave 라는 파라미터 값으로 넘어오는 문자열을 null이고
 						체크를 하면 isSave라는 파라미터 값으로 넘어오는 문자열은 "yes" 이다 -->
-						<input type="checkbox" value="remember-me" name="isSave">
+						<input type="checkbox" value="remember-me" name="isSave" ${empty cookie.savedId ? '' : 'checked' }>
 						로그인 정보 저장
 					</label>
 				</div>
