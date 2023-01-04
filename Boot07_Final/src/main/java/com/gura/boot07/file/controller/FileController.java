@@ -51,10 +51,10 @@ public class FileController {
 	}
 
 	/*
-	 * 컨트롤러에서 파일을 직접 다운로드 시켜주기
+	 * 컨트롤러에서 파일을 직접 다운로드 시켜주기 (view 파일 사용하지않기)
 	 * 
-	 * 1. ResponseEntity 객체에 다운로드 해줄 파일의 정보를 담고 2.
-	 * ResponseEntity<InputStreamResource> 객체를 리턴해준다.
+	 * 1. ResponseEntity 객체에 다운로드 해줄 파일의 정보를 담고 
+	 * 2.ResponseEntity<InputStreamResource> 객체를 리턴해준다.
 	 */
 
 	@GetMapping("/file/download")
@@ -66,6 +66,8 @@ public class FileController {
 		// 파일명에 공백이 있는경우 파일명이 이상해지는걸 방지
 		encodedName = encodedName.replaceAll("\\+", " ");
 		// 응답 헤더정보 구성하기 (웹브라우저에 알릴정보)
+		// 응답 헤더에는 보통 문자열이 들어있다(key=value, ke2 = value...  형태의 문자열) 
+		// 약속된 키값의 약속된 밸류를 확인해서 맞게끔 클라이언트가 동작한다. 
 		HttpHeaders headers = new HttpHeaders();
 		// 파일을 다운로드 시켜 주겠다는 정보
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
@@ -79,10 +81,13 @@ public class FileController {
 		// 파일에서 읽어들일 스트림 객체
 		InputStream is = new FileInputStream(new File(path));
 		/*
-		 * 미리 준비된 헤더정보와 추가 헤더정보, 파일에서 읽어들을 스트림 객체를 이용해서 ResponseEntity 객체의 참조값을 얻어낸다.
+		 * 미리 준비된 헤더정보와 추가 헤더정보, 파일
+		 * 에서 읽어들을 스트림 객체를 이용해서 ResponseEntity 객체의 참조값을 얻어낸다.
 		 */
-		ResponseEntity<InputStreamResource> re = ResponseEntity.ok().headers(headers)
-				.header("Content-Transfer-Encoding", "binary").body(new InputStreamResource(is));
+		ResponseEntity<InputStreamResource> re = ResponseEntity.ok()
+				.headers(headers)
+				.header("Content-Transfer-Encoding", "binary")
+				.body(new InputStreamResource(is));
 
 		// ResponseEntity 객체를 리턴해주면 알아서 파일이 다운로드가 된다.
 		return re;

@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -50,7 +51,9 @@ public class UsersController {
 	 * 응답된 byte[] 배열에 있는 데이터를 이미지 데이터로 클라이언트 웹브라우저가 인식하게 하는 방법 produces =
 	 * MediaType.IMAGE_JPEG_VALUE
 	 */
-	@GetMapping(value = "/users/images/{imageName}", produces = { MediaType.IMAGE_JPEG_VALUE,
+	@GetMapping(
+			value = "/users/images/{imageName}", 
+			produces = { MediaType.IMAGE_JPEG_VALUE,
 			MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE })
 	@ResponseBody
 	public byte[] profileImage(@PathVariable("imageName") String imageName) throws IOException {
@@ -64,8 +67,11 @@ public class UsersController {
 	}
 
 	/*
-	 * GET 방식 /users/signup_form 요청을 처리할 메소드 - 요청방식이 다르면 실행되지 않는다. - 때로는 경로요청 뿐만 아니라
-	 * 요청 방식도 구문해야할 때가 있다. - 이때, 사용하는 것이 method =RequestMethod.__ , value = "경로"
+	 * GET 방식 /users/signup_form 요청을 처리할 메소드 
+	 * - 요청방식이 다르면 실행되지 않는다. 
+	 * - 때로는 경로요청 뿐만 아니라
+	 * 요청 방식도 구문해야할 때가 있다. 
+	 * - 이때, 사용하는 것이 method =RequestMethod.__ , value = "경로"
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/users/signup_form")
 	public String signupForm() {
@@ -88,12 +94,12 @@ public class UsersController {
 
 	// 로그인 요청 처리
 	@RequestMapping(method = RequestMethod.POST, value = "/users/login")
-	public ModelAndView login(UsersDto dto, HttpSession session, ModelAndView mView, String url) {
+	public ModelAndView login(UsersDto dto, HttpSession session, ModelAndView mView, String url, HttpServletResponse response) {
 		/*
 		 * 서비스에서 비즈니스 로직을 처리할 때 필요로 하는 객체를 컨트롤러에서 직접 전달을 해 주어야한다. 주로,
 		 * HttpServeltRequest, HttpServletResponse, Httpsession, ModelAndView 등등의 객체이다.
 		 */
-		service.loginProcess(dto, session);
+		service.loginProcess(dto, session, response);
 
 		// 로그인 후에 가야할 목적지 정보를 인코딩하지 않는 것과 인코딩한 것을 모두 ModelAndView 객체에 담고
 		String encodeUrl = URLEncoder.encode(url);

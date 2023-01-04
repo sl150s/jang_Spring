@@ -47,11 +47,13 @@ public class GalleryController {
 	 * 응답된 byte[] 배열에 있는 데이터를 이미지 데이터로 클라이언트 웹브라우저가 인식하게 하는 방법
 	 * produces = MediaType.IMAGE_JPEG_VALUE 
 	 */
-	@GetMapping(value = "/gallery/images/{imageName}", produces = { MediaType.IMAGE_JPEG_VALUE,
+	@GetMapping(
+			value = "/gallery/images/{imageName}", 
+			produces = { MediaType.IMAGE_JPEG_VALUE,
 			MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE })
 	@ResponseBody
 	public byte[] galleryImage(@PathVariable("imageName") String imageName) throws IOException {
-
+		
 		String absolutePath = fileLocation + File.separator + imageName;
 		// 파일에서 읽어들일 InputStream
 		InputStream is = new FileInputStream(absolutePath);
